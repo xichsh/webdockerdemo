@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebDockerDemo.Dal\WebDockerDemo.Dal.csproj" />
+    <ProjectReference Include="..\WebDockerDemo.Model\WebDockerDemo.Model.csproj" />
+  </ItemGroup>
+
+</Project>
