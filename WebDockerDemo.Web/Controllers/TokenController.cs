@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WebDockerDemo.Bll;
 using WebDockerDemo.Model.Dtos;
 using WebDockerDemo.Web.Common;
@@ -16,10 +17,12 @@ namespace WebDockerDemo.Web.Controllers
     public class TokenController : BaseController
     {
         private readonly IUserBllService _userBllService;
+        private readonly ILogger<TokenController> _logger;
 
-        public TokenController(IUserBllService userBllService)
+        public TokenController(IUserBllService userBllService, ILoggerFactory loggerFactory)
         {
             _userBllService = userBllService;
+            _logger = loggerFactory.CreateLogger<TokenController>();
         }
 
         /// <summary>
@@ -31,6 +34,7 @@ namespace WebDockerDemo.Web.Controllers
         [HttpPost(Name = nameof(Login))]
         public async Task<ActionResult<BaseDto<object>>> Login([FromBody] LoginParameter loginParameter)
         {
+            _logger.LogInformation($"UserName:{loginParameter.UserName},Password:{loginParameter.Password}");
             var user = await _userBllService.GetUserAsync(loginParameter.UserName, loginParameter.Password);
             if (user != null)
             {
