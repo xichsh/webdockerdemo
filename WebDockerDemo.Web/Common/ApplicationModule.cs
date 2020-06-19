@@ -21,6 +21,8 @@ namespace WebDockerDemo.Web.Common
             builder.RegisterAssemblyTypes(typeof(BaseDalService).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces();
+
+            builder.RegisterType<MongoHelper>();
         }
     }
 }

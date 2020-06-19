@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  webdockerdemo.web:
+    image: ${DOCKER_REGISTRY-}webdockerdemoweb
+    build:
+      context: .
+      dockerfile: WebDockerDemo.Web/Dockerfile
+    environment:
+        - ASPNETCORE_DBCONN=mongodb://0.0.0.0:27089
+        - ASPNETCORE_DBNAME=dockerdb
+        - ASPNETCORE_MYSQLDBCONN=Data Source=111.229.252.31;port=3306;Initial Catalog=DockerDemo;user id=root;password=123456;Allow User Variables=true
+    ports:
+        - "5103:80"
+    depends_on:
+        - mongodocker
+
+  mongodocker:
+    image: mongo
+    ports:
+        - "27089:27017"

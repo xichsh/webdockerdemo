@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WebDockerDemo.Web.Common;
 
 namespace WebDockerDemo.Web.Controllers
 {
@@ -17,23 +18,25 @@ namespace WebDockerDemo.Web.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly MongoHelper _mongoHelper;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, MongoHelper mongoHelper)
         {
             _logger = logger;
+            _mongoHelper = mongoHelper;
         }
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            _mongoHelper.InsertOne(new WeatherForecast
             {
-                Date = DateTime.Now.AddDays(index),
+                Date = DateTime.Now.AddDays(1),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            });
+            return _mongoHelper.FindList<WeatherForecast>();
         }
     }
 }

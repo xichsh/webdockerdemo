@@ -3,10 +3,10 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
+COPY ["WebDockerDemo.sln","./"]
 COPY ["WebDockerDemo.Web/WebDockerDemo.Web.csproj", "WebDockerDemo.Web/"]
 COPY ["WebDockerDemo.Model/WebDockerDemo.Model.csproj", "WebDockerDemo.Model/"]
 COPY ["WebDockerDemo.Bll/WebDockerDemo.Bll.csproj", "WebDockerDemo.Bll/"]
